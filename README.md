@@ -32,7 +32,7 @@ Next.js 15 (App Router), React 18, TypeScript, Tailwind CSS 3, Zod, Lucide icons
 
 ## Development
 
-Requires Node.js 18.18 or later and pnpm.
+Requires Node.js 20.9 or later and pnpm.
 
 ```bash
 pnpm install
