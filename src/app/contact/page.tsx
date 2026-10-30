@@ -1,147 +1,78 @@
 import type { Metadata } from 'next'
-import Navigation from '@/components/Navigation'
-import ContactForm from '@/components/ContactForm'
-import Footer from '@/components/Footer'
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { BookingForm } from '@/components/BookingForm'
+import { clinic, hours } from '@/data/clinic'
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
-  description: 'Get in touch with our dental team. Schedule your consultation, ask questions, or book an appointment. We\'re here to help you achieve your perfect smile.',
-  alternates: {
-    canonical: '/contact/',
-  },
+  title: 'Book a visit',
+  description: 'Request an appointment at Dent, a fictional dental studio: choose a treatment and a time of day, and get a reply by email.',
+  alternates: { canonical: '/contact/' },
 }
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <div className="page-width pb-20 pt-10 sm:pb-24 sm:pt-14">
+      <div className="max-w-2xl">
+        <p className="eyebrow">Contact</p>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Book a visit</h1>
+        <p className="mt-5 text-lg leading-relaxed text-ink-muted sm:text-xl">
+          Tell us what you need and when suits you, and the clinic replies by email to confirm a time. For pain or swelling
+          today, call instead.
+        </p>
+      </div>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-primary/5">
-        <div className="container">
-          <div className="text-center">
-            <h1 className="font-display text-4xl lg:text-6xl font-bold text-foreground mb-6">
-              Get in{' '}
-              <span className="text-primary">Touch</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Ready to transform your smile? Contact us today to schedule your
-              consultation and take the first step towards your perfect smile.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="mt-12 grid gap-8 lg:grid-cols-[1.55fr_1fr] lg:gap-12">
+        <section aria-labelledby="request-title" className="rounded-4xl bg-surface p-6 ring-1 ring-line sm:p-10">
+          <h2 id="request-title" className="text-2xl font-bold">
+            Your request
+          </h2>
+          <p className="mb-8 mt-2 text-ink-muted">All fields are required unless marked optional.</p>
+          <BookingForm />
+        </section>
 
-      {/* Contact Content */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <ContactForm />
-            </div>
-
-            {/* Contact Information */}
-            <div className="lg:col-span-1 space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold text-foreground mb-6">
-                  Contact Information
-                </h2>
-                <p className="text-muted-foreground mb-8 leading-relaxed">
-                  We&apos;re here to help you achieve the smile of your dreams.
-                  Reach out to us through any of the methods below.
-                </p>
-              </div>
-
-              {/* Contact Details */}
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Phone</h3>
-                    <a
-                      href="tel:+1234567890"
-                      className="text-primary hover:text-primary/80 font-medium"
-                    >
-                      (123) 456-7890
-                    </a>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Available Mon-Fri: 8AM-6PM
-                    </p>
-                  </div>
+        <aside aria-label="Other ways to reach the clinic" className="space-y-4">
+          <ContactRow icon={<Phone className="h-5 w-5" aria-hidden="true" />} title="Call">
+            <a href={clinic.phoneHref} className="text-link">
+              {clinic.phone}
+            </a>
+            <p className="mt-1 text-sm text-ink-muted">Best for emergencies and same-day appointments.</p>
+          </ContactRow>
+          <ContactRow icon={<Mail className="h-5 w-5" aria-hidden="true" />} title="Email">
+            <a href={`mailto:${clinic.email}`} className="text-link">
+              {clinic.email}
+            </a>
+          </ContactRow>
+          <ContactRow icon={<MapPin className="h-5 w-5" aria-hidden="true" />} title="Address">
+            <address className="not-italic">
+              {clinic.address[0]}
+              <br />
+              {clinic.address[1]}
+            </address>
+          </ContactRow>
+          <ContactRow icon={<Clock className="h-5 w-5" aria-hidden="true" />} title="Opening hours">
+            <dl className="space-y-1">
+              {hours.map((row) => (
+                <div key={row.days} className="flex justify-between gap-4">
+                  <dt className="text-ink-muted">{row.days}</dt>
+                  <dd className="font-semibold">{row.time}</dd>
                 </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                    <a
-                      href="mailto:info@dent.com"
-                      className="text-primary hover:text-primary/80 font-medium"
-                    >
-                      info@dent.com
-                    </a>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      We&apos;ll respond within 24 hours
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Address</h3>
-                    <p className="text-muted-foreground">
-                      123 Dental Street<br />
-                      City, State 12345
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Free parking available
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Hours</h3>
-                    <div className="text-muted-foreground space-y-1">
-                      <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
-                      <p>Saturday: 9:00 AM - 3:00 PM</p>
-                      <p>Sunday: Closed</p>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Emergency appointments available
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Map Placeholder */}
-              <div className="mt-8">
-                <h3 className="font-semibold text-foreground mb-4">Location</h3>
-                <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center border border-border">
-                  <p className="text-muted-foreground">Interactive Map Coming Soon</p>
-                </div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Located in the heart of the city with easy access to public transportation.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+              ))}
+            </dl>
+          </ContactRow>
+        </aside>
+      </div>
+    </div>
   )
-} 
+}
+
+function ContactRow({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-4 rounded-3xl bg-surface p-5 ring-1 ring-line">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-tint text-action">{icon}</span>
+      <div className="min-w-0 flex-1">
+        <h2 className="font-bold">{title}</h2>
+        <div className="mt-1">{children}</div>
+      </div>
+    </div>
+  )
+}

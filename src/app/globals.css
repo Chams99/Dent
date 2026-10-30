@@ -3,249 +3,106 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 210 40% 98%;
-    /* Slightly cooler/greyer white for premium feel */
-    --foreground: 222 47% 11%;
-    /* Deep rich navy-black */
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 201 96% 32%;
-    /* Sophisticated deep teal/blue */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 201 96% 32%;
-    --radius: 0.75rem;
-    /* Larger border radius for modern feel */
-
-    /* Fluent Design System Tokens */
-    --fluent-surface: 210 40% 98%;
-    --fluent-mica: 210 40% 97%;
-    --fluent-acrylic-fallback: 210 40% 98%;
-    --fluent-stroke: 214.3 31.8% 91.4%;
-    --fluent-reveal: 201 96% 32%;
-    /* Primary color as default reveal glint */
+  html {
+    /* Keeps anchored sections clear of the sticky header. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
   }
 
-  .dark {
-    --background: 222 47% 11%;
-    /* matching foreground from light mode for consistency */
-    --foreground: 210 40% 98%;
-    --card: 222 47% 13%;
-    /* Slightly lighter than background */
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 199 89% 48%;
-    /* Brighter aqua for dark mode contrast */
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 199 89% 48%;
-
-    /* Fluent Design Dark Tokens */
-    --fluent-surface: 222 47% 11%;
-    --fluent-mica: 222 47% 12%;
-    --fluent-acrylic-fallback: 222 47% 13%;
-    --fluent-stroke: 217.2 32.6% 17.5%;
-    --fluent-reveal: 199 89% 48%;
-  }
-
-  * {
-    @apply border-border;
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply bg-canvas text-ink antialiased;
   }
 
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-primary/60 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary/80;
-  }
-
-  /* Focus styles */
   :focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    outline: 3px solid theme('colors.action.DEFAULT');
+    outline-offset: 3px;
   }
 
-  /* Selection styles */
   ::selection {
-    @apply bg-primary/20 text-primary-foreground;
-  }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+    background: theme('colors.action.soft');
   }
 }
 
 @layer components {
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .page-width {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.14em] text-action;
+  }
+
+  .section-title {
+    @apply text-3xl font-extrabold tracking-tight sm:text-4xl;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none relative overflow-hidden;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold;
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 150ms;
   }
 
   .btn-primary {
-    @apply btn bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-95 border-none;
-  }
-
-  .btn-primary::after {
-    content: '';
-    @apply absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300;
-  }
-
-  .btn-primary:hover::after {
-    @apply opacity-100;
+    @apply bg-action text-white hover:bg-action-strong active:bg-ink;
   }
 
   .btn-secondary {
-    @apply btn bg-secondary text-secondary-foreground border border-border hover:bg-secondary/80 focus:ring-secondary;
+    @apply border border-line-strong bg-surface text-ink hover:border-ink hover:bg-tint active:bg-action-soft;
   }
 
-  .btn-ghost {
-    @apply btn text-foreground hover:bg-muted focus:ring-muted;
+  .btn-light {
+    @apply bg-white text-ink hover:bg-tint active:bg-action-soft;
   }
 
-  .btn-outline {
-    @apply btn border-2 border-primary/20 bg-transparent text-foreground hover:border-primary hover:bg-primary/5 focus:ring-primary;
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-70;
   }
 
-  /* Form Elements */
-  .input-field {
-    @apply w-full px-5 py-4 rounded-xl bg-background border border-input focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 outline-none placeholder:text-muted-foreground/50;
+  .text-link {
+    @apply font-semibold text-action underline decoration-action/40 underline-offset-4 hover:decoration-action;
   }
 
-  .label-text {
-    @apply block text-sm font-medium text-foreground mb-2 ml-1;
+  .field {
+    @apply block w-full rounded-xl border border-line-strong bg-surface px-4 py-3 text-base text-ink;
+    transition-property: border-color, box-shadow;
+    transition-duration: 150ms;
   }
 
-  /* Cards */
-  .card {
-    @apply bg-card text-card-foreground rounded-2xl shadow-sm border border-border/50 transition-all duration-300;
+  .field:hover {
+    @apply border-ink;
   }
 
-  .card-hover {
-    @apply card hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
+  .field[aria-invalid='true'] {
+    @apply border-danger;
   }
 
-  .section-padding {
-    @apply py-24 sm:py-32;
+  .field:focus-visible {
+    outline: none;
+    @apply border-action ring-2 ring-action;
   }
 
-  .text-gradient {
-    @apply text-primary;
+  .prose-page h2 {
+    @apply mt-10 text-2xl font-bold tracking-tight;
   }
 
-  /* Fluent Design Materials */
-  .fluent-mica {
-    @apply bg-background/80 backdrop-blur-xl border border-white/20 dark:border-white/5;
+  .prose-page p,
+  .prose-page ul {
+    @apply mt-4 text-lg leading-relaxed text-ink-muted;
   }
 
-  .fluent-acrylic {
-    @apply bg-white/60 dark:bg-black/40 backdrop-blur-[20px] saturate-150 border border-white/20 dark:border-white/5;
-  }
-
-  .fluent-card {
-    @apply relative overflow-hidden rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300;
-  }
-
-  /* Reveal Effect Container */
-  .fluent-reveal-container {
-    --mouse-x: 0px;
-    --mouse-y: 0px;
-  }
-
-  /* Reveal Highlight Glint - Removed Gradient */
-  .fluent-reveal-glint {
-    @apply pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300;
-    /* Removed radial-gradient */
-    background: transparent;
-  }
-
-  .fluent-card:hover .fluent-reveal-glint {
-    @apply opacity-0;
-    /* Effectively disabled or use a flat color if desired */
-  }
-
-  /* Reveal Border - Removed Gradient */
-  .fluent-reveal-border {
-    @apply pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-300;
-    /* Removed gradients */
-    background: transparent;
-  }
-
-  .fluent-card:hover .fluent-reveal-border {
-    @apply opacity-0;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 600ms;
+  .prose-page ul {
+    @apply list-disc space-y-2 pl-6;
   }
 }
