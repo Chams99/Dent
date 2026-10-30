@@ -3,25 +3,26 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Sparkles, ArrowRight, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 
 const footerLinks = {
   services: [
-    { name: 'Teeth Whitening', href: '/services/teeth-whitening' },
-    { name: 'Invisalign', href: '/services/invisalign' },
-    { name: 'Cosmetic Dentistry', href: '/services/cosmetic' },
-    { name: 'Dental Implants', href: '/services/implants' },
+    { name: 'Teeth Whitening', href: '/#services' },
+    { name: 'Invisalign', href: '/#services' },
+    { name: 'Cosmetic Dentistry', href: '/#services' },
+    { name: 'Dental Implants', href: '/#services' },
   ],
   company: [
     { name: 'About Us', href: 'about', isScroll: true },
-    { name: 'Our Team', href: '/team' },
+    { name: 'Our Team', href: 'about', isScroll: true },
     { name: 'Testimonials', href: 'treatments', isScroll: true },
     { name: 'Contact', href: '/contact' },
   ],
   support: [
     { name: 'Book Appointment', href: '/contact' },
-    { name: 'Emergency Care', href: '/emergency' },
-    { name: 'Insurance', href: '/insurance' },
-    { name: 'Payment Plans', href: '/payment' },
+    { name: 'Emergency Care', href: '/contact' },
+    { name: 'Insurance', href: '/contact' },
+    { name: 'Payment Plans', href: '/contact' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
@@ -39,6 +40,8 @@ const socialLinks = [
 ]
 
 export default function Footer() {
+  const { navigateAndScroll } = useSmoothScroll()
+
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     const targetElement = document.getElementById(href)
@@ -49,6 +52,9 @@ export default function Footer() {
         top: offsetTop,
         behavior: 'smooth'
       })
+    } else {
+      // The section lives on the home page.
+      navigateAndScroll(href)
     }
   }
 
@@ -265,7 +271,7 @@ export default function Footer() {
                   >
                     {link.isScroll ? (
                       <a
-                        href={`#${link.href}`}
+                        href={`/#${link.href}`}
                         onClick={(e) => handleSmoothScroll(e, link.href)}
                         className="text-gray-300 hover:text-primary transition-colors duration-200 cursor-pointer group flex items-center"
                       >
@@ -328,7 +334,8 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0">
             {/* Copyright & Legal */}
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="text-gray-400 text-sm">
+              {/* The page is prerendered, so the year can differ from the visitor's clock. */}
+              <div className="text-gray-400 text-sm" suppressHydrationWarning>
                 © {new Date().getFullYear()} Dent. All rights reserved.
               </div>
               <div className="flex space-x-6">

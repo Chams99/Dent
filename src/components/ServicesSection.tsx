@@ -228,7 +228,7 @@ export default function ServicesSection() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Link
-                    href={`/treatments/${service.title.toLowerCase().replace(/\s+/g, '-')}`}
+                    href="/contact"
                     className="btn-primary w-full justify-center group relative overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center">

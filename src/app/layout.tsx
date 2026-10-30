@@ -31,14 +31,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://dent-clinic.com'),
+  metadataBase: new URL('https://dent-phi.vercel.app'),
   alternates: {
     canonical: '/',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://dent-clinic.com',
     title: 'Dent - Premium Dental Care & Cosmetic Dentistry',
     description: 'Transform your smile with our premium dental care services. Professional teeth whitening, Invisalign, cosmetic dentistry, and more.',
     siteName: 'Dent Dental Clinic',
@@ -67,9 +74,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
 }
 

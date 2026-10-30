@@ -5,8 +5,11 @@ import Footer from '@/components/Footer'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Contact Us - Dent',
+  title: 'Contact Us',
   description: 'Get in touch with our dental team. Schedule your consultation, ask questions, or book an appointment. We\'re here to help you achieve your perfect smile.',
+  alternates: {
+    canonical: '/contact/',
+  },
 }
 
 export default function ContactPage() {
