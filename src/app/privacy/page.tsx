@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { developer } from '@/data/developer'
 
 export const metadata: Metadata = {
   title: 'Privacy',
@@ -28,7 +29,8 @@ export default function PrivacyPage() {
 
         <h2>What happens to it</h2>
         <p>
-          The request is sent as an email to the owner of this website through Resend, an email delivery service. The site
+          The request is sent as an email to {developer.name}, who built and runs this website, through Resend, an email
+          delivery service. The site
           does not keep it in a database, it is not sold or shared with anyone else, and it is only used to reply to you.
         </p>
 

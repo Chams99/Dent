@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { clinic, hours } from '@/data/clinic'
 import { Logo } from './Logo'
+import { MadeBy } from './MadeBy'
 import { navLinks } from './navigation'
 
 export function SiteFooter() {
@@ -57,6 +58,8 @@ export function SiteFooter() {
           </dl>
         </div>
       </div>
+
+      <MadeBy />
 
       <div className="border-t border-white/15">
         <div className="page-width flex flex-col gap-4 py-6 text-sm text-ink-soft lg:flex-row lg:items-center lg:justify-between">

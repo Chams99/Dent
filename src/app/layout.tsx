@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Figtree } from 'next/font/google'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { developer, developerPerson } from '@/data/developer'
 import './globals.css'
 
 const figtree = Figtree({
@@ -10,14 +11,33 @@ const figtree = Figtree({
   display: 'swap',
 })
 
+const SITE = 'https://dent-phi.vercel.app'
 const title = 'Dent · Dental studio'
 const description =
   'Dent is a demo website for a fictional dental studio: treatments with clear starting prices, what happens at a first visit, and online booking.'
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE}/#website`,
+      url: `${SITE}/`,
+      name: 'Dent',
+      description,
+      inLanguage: 'en',
+      creator: { '@id': developerPerson['@id'] },
+    },
+    developerPerson,
+  ],
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://dent-phi.vercel.app'),
+  metadataBase: new URL(SITE),
   title: { default: title, template: '%s · Dent' },
   description,
+  authors: [{ name: developer.name, url: developer.portfolio }],
+  creator: developer.name,
   alternates: { canonical: '/' },
   icons: {
     icon: [
@@ -65,6 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <SiteFooter />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </body>
     </html>
   )
