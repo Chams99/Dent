@@ -12,8 +12,27 @@ export function MobileMenu() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const mobileFocusRef = useRef<{ href: string | null } | null>(null)
 
   useEffect(() => setOpen(false), [pathname])
+
+  useEffect(() => {
+    const onFocusIn = (event: FocusEvent) => {
+      const target = event.target
+
+      if (target === buttonRef.current) {
+        mobileFocusRef.current = { href: null }
+      } else if (target instanceof HTMLAnchorElement && menuRef.current?.contains(target)) {
+        mobileFocusRef.current = { href: target.href }
+      } else {
+        mobileFocusRef.current = null
+      }
+    }
+
+    document.addEventListener('focusin', onFocusIn)
+    return () => document.removeEventListener('focusin', onFocusIn)
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -24,7 +43,32 @@ export function MobileMenu() {
       }
     }
     const onResize = () => {
-      if (window.matchMedia('(min-width: 768px)').matches) setOpen(false)
+      if (!window.matchMedia('(min-width: 768px)').matches) return
+
+      const activeElement = document.activeElement
+      const trackedMobileFocus = mobileFocusRef.current
+      const focusIsInClosingMenu =
+        activeElement instanceof HTMLElement &&
+        (buttonRef.current === activeElement || menuRef.current?.contains(activeElement))
+      const focusWasMovedByResponsiveLayout = activeElement === document.body && trackedMobileFocus !== null
+
+      if (focusIsInClosingMenu || focusWasMovedByResponsiveLayout) {
+        const header = buttonRef.current?.closest('header')
+        const desktopLinks = header?.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Main"] a[href]')
+        const focusedHref =
+          (activeElement instanceof HTMLAnchorElement ? activeElement.href : null) ?? trackedMobileFocus?.href
+        const destination =
+          (focusedHref &&
+            Array.from(header?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? []).find(
+              (link) => link.href === focusedHref && link.getClientRects().length > 0,
+            )) ||
+          Array.from(desktopLinks ?? []).find((link) => link.getClientRects().length > 0)
+
+        destination?.focus()
+      }
+
+      mobileFocusRef.current = null
+      setOpen(false)
     }
     document.addEventListener('keydown', onKey)
     window.addEventListener('resize', onResize)
@@ -49,6 +93,7 @@ export function MobileMenu() {
       </button>
 
       <div
+        ref={menuRef}
         id="mobile-menu"
         hidden={!open}
         className="absolute inset-x-0 top-full h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain border-t border-line bg-canvas"
